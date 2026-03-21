@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>SatGuard — Satellite Cyber Defence Platform</title>
+
+    <!-- Fonts -->
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap"
+        rel="stylesheet" />
+
+    <!-- Stylesheet -->
+    <link rel="stylesheet" href="css/style.css" />
+</head>
+
+<body>
+
+    <!-- ── TOP BAR ── -->
+    <div id="topbar">
+        <div class="topbar-left">
+            <div class="logo">
+                <div class="logo-icon">🛰️</div>
+                SatGuard
+                <span class="logo-badge">v1.0</span>
+            </div>
+        </div>
+        <div class="topbar-center">
+            <div class="status-badge online" id="sys-status">
+                <span class="dot"></span> System Online
+            </div>
+            <div class="status-badge online" id="ml-status">
+                <span class="dot"></span> ML Engine Active
+            </div>
+            <div class="status-badge online" id="net-status">
+                <span class="dot"></span> Network Nominal
+            </div>
+        </div>
+        <div class="topbar-right">
+            <div id="clock">--:--:-- UTC</div>
+        </div>
+    </div>
+
+    <!-- ── ALERT BANNER ── -->
+    <div id="alert-banner">⚠ THREAT DETECTED — ANOMALY CLASSIFIED</div>
+
+    <!-- ── 3D CANVAS ── -->
+    <canvas id="canvas"></canvas>
+
+    <!-- ── LEFT TOP: Telemetry Feed ── -->
+    <div class="panel" id="panel-telemetry">
+        <div class="panel-header">
+            <div class="panel-icon">📡</div>
+            <div class="panel-title">Telemetry Feed</div>
+        </div>
+        <div class="panel-body" style="padding-top:8px; padding-bottom:8px;">
+            <div class="tele-row">
+                <span class="label">Signal Strength</span>
+                <span class="val" id="t-sig">–94 dBm</span>
+            </div>
+            <div class="tele-row">
+                <span class="label">Orbit Altitude</span>
+                <span class="val" id="t-alt">550 km</span>
+            </div>
+            <div class="tele-row">
+                <span class="label">CMD Frequency</span>
+                <span class="val" id="t-cmd">2.245 GHz</span>
+            </div>
+            <div class="tele-row">
+                <span class="label">Temp (OBC)</span>
+                <span class="val" id="t-temp">22.4 °C</span>
+            </div>
+            <div class="tele-row">
+                <span class="label">Power Output</span>
+                <span class="val" id="t-pwr">98.2 %</span>
+            </div>
+            <div class="tele-row">
+                <span class="label">Anomaly Score</span>
+                <span class="val" id="t-anom">0.12</span>
+            </div>
+            <div class="tele-row">
+                <span class="label">Root Cause (XAI)</span>
+                <span class="val" id="t-xai">—</span>
+            </div>
+            <div class="tele-row">
+                <span class="label">Data Packets</span>
+                <span class="val" id="t-pkt">4,821</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- ── LEFT BOTTOM: Active Satellites ── -->
+    <div class="panel" id="panel-sats">
+        <div class="panel-header">
+            <div class="panel-icon">🔭</div>
+            <div class="panel-title">Active Satellites</div>
+        </div>
+        <div class="panel-body" style="padding-top:6px; padding-bottom:6px;">
+            <div class="sat-item">
+                <div class="sat-indicator safe" id="s1-dot"></div>
+                <span class="sat-name">SMAP-01</span>
+                <span class="sat-status-label safe" id="s1-st">NOMINAL</span>
+            </div>
+            <div class="sat-item">
+                <div class="sat-indicator safe" id="s2-dot"></div>
+                <span class="sat-name">SMAP-02</span>
+                <span class="sat-status-label safe" id="s2-st">NOMINAL</span>
+            </div>
+            <div class="sat-item">
+                <div class="sat-indicator safe" id="s3-dot"></div>
+                <span class="sat-name">MSL-RELAY</span>
+                <span class="sat-status-label safe" id="s3-st">NOMINAL</span>
+            </div>
+            <div class="sat-item">
+                <div class="sat-indicator safe" id="s4-dot"></div>
+                <span class="sat-name">GPS-GUARD</span>
+                <span class="sat-status-label safe" id="s4-st">NOMINAL</span>
+            </div>
+            <div class="sat-item">
+                <div class="sat-indicator safe" id="s5-dot"></div>
+                <span class="sat-name">OBS-TERRA</span>
+                <span class="sat-status-label safe" id="s5-st">NOMINAL</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- ── RIGHT TOP: Threat Assessment ── -->
+    <div class="panel" id="panel-threat">
+        <div class="panel-header">
+            <div class="panel-icon">🔒</div>
+            <div class="panel-title">Threat Assessment</div>
+        </div>
+        <div class="panel-body">
+            <div class="threat-gauge">
+                <div class="threat-score-main normal" id="threat-num">0.12</div>
+                <div class="threat-level-tag normal" id="threat-lbl">
+                    <span>●</span> NORMAL
+                </div>
+                <button id="btn-playbook" class="playbook-btn" disabled>Execute Playbook</button>
+            </div>
+            <div class="threat-bar-wrap">
+                <div class="bar-track">
+                    <div class="bar-fill" id="threat-bar" style="width:12%; background:var(--ok);"></div>
+                </div>
+                <div class="bar-labels">
+                    <span>0.0</span><span>0.3</span><span>0.6</span><span>1.0</span>
+                </div>
+            </div>
+            <div class="intel-grid">
+                <div class="intel-card full">
+                    <div class="intel-label">Attack Vector</div>
+                    <div class="intel-val" id="atk-type-val">— No Threat Detected</div>
+                </div>
+                <div class="intel-card">
+                    <div class="intel-label">Confidence</div>
+                    <div class="intel-val" id="atk-conf-val">—</div>
+                </div>
+                <div class="intel-card">
+                    <div class="intel-label">Response</div>
+                    <div class="intel-val ok" id="atk-resp-val">MONITORING</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ── RIGHT BOTTOM: Incident Log ── -->
+    <div class="panel" id="panel-log">
+        <div class="panel-header">
+            <div class="panel-icon">📋</div>
+            <div class="panel-title">Incident Log</div>
+        </div>
+        <div class="log-list" id="log-list"></div>
+    </div>
+
+    <!-- ── BOTTOM CENTER: DVR Slider ── -->
+    <div class="dvr-container" id="dvr-container">
+        <div class="dvr-label">
+            <div class="dvr-live-dot" id="dvr-dot"></div>
+            <span id="dvr-text">LIVE</span>
+        </div>
+        <input type="range" id="dvr-slider" min="0" max="0" value="0" step="1" />
+    </div>
+
+    <!-- ── BOTTOM CENTER: Simulation Controls ── -->
+    <div id="panel-sim">
+        <span class="sim-divider">Simulate</span>
+        <button class="sim-btn normal" onclick="simulate('normal')">◉ Normal</button>
+        <button class="sim-btn spoof" onclick="simulate('spoof')">⚠ CMD Spoof</button>
+        <button class="sim-btn inject" onclick="simulate('inject')">⚡ Sig Inject</button>
+        <button class="sim-btn manip" onclick="simulate('manip')">↗ Tele Manip</button>
+        <button class="sim-btn hw" onclick="simulate('hw')">⚙ HW Degradation</button>
+    </div>
+
+    <!-- ── SCRIPTS ── -->
+    <!-- Three.js (must load before main.js) -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <!-- Main app logic -->
+    <script src="js/main.js"></script>
+    <!-- Backend API bridge -->
+    <script src="js/api.js"></script>
+
+</body>
+
+</html>

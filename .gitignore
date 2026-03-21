@@ -1,0 +1,37 @@
+# ─────────────────────────────────────────────
+# SatGuard — .gitignore
+# ─────────────────────────────────────────────
+
+# Python cache
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+
+# ML Models — regenerate using train_model.py
+backend/models/*.pkl
+
+# NASA SMAP Dataset — download from Kaggle separately
+data/
+
+# Virtual environments
+venv/
+.venv/
+env/
+.env/
+
+# Environment variables
+.env
+.env.local
+
+# OS files
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# IDEs
+.vscode/
+.idea/
+
+# Logs
+*.log
