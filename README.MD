@@ -1,4 +1,4 @@
-# 🛰️ SatGuard — AI Cyber Immune System for Satellite Networks
+# 🛰️ Kavach — AI Cyber Immune System for Satellite Networks
 
 > **Protecting Space Assets with Real-Time ML Anomaly Detection and Attack Classification.**
 > SatGuard continuously monitors satellite telemetry streams, autonomously identifies anomalous behavior, classifies orbital cyber-threats, and displays everything on a high-fidelity 3D mission control dashboard.
